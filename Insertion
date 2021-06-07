@@ -1,0 +1,49 @@
+package net.codejava;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+
+public class UsersManager {
+public static void main(String[] args) {
+	String jdbcURL="jdbc:mysql://localhost:3306/sampledb";
+	String dbusername="root";
+	String dbpassword="TIGER";
+	String fullname="john Doe";
+	String email="john@gmail.com";
+	String username="johnpandey";
+	String password="123456";
+	
+	
+	try {
+		Connection connection= DriverManager.getConnection(jdbcURL,dbusername,dbpassword);
+		
+		String sql="INSERT INTO users(username,email,fullname,password)"
+				+ " VALUES (?,?,?,?)";
+		PreparedStatement statement=connection.prepareStatement(sql);
+		statement.setString(1, username);
+		statement.setString(2, email);
+		statement.setString(3, fullname);
+		statement.setString(4, password);
+		
+		int rows=statement.executeUpdate();
+		
+		if(rows>0) {
+			System.out.println("A new user has been inserted sucessfully.");
+		}
+		
+		
+		
+			connection.close();
+		
+	}catch(SQLException ex) {
+		ex.printStackTrace();
+	}
+	
+	
+}
+}
